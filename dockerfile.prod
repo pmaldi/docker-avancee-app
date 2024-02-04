@@ -1,0 +1,41 @@
+# Étape de construction
+FROM node:21-alpine AS builder
+
+# Définir l'environnement de production
+ENV VITE_PROMO=Hati
+ENV VITE_ENV=prod
+
+
+# Définir l'environnement de travail
+WORKDIR /app
+
+# Copier les fichiers de dépendances
+COPY package*.json ./
+
+
+# Installer les dépendances
+RUN npm install
+
+# Copier le reste des fichiers de l'application
+COPY . .
+
+# Construire l'application
+RUN npm run build
+
+# Étape de production avec serve
+FROM node:21-alpine
+
+# Installer serve
+RUN npm install -g serve
+
+# Copier les fichiers statiques depuis l'étape de construction
+COPY --from=builder /app/dist /app
+
+# Définir le répertoire de travail pour les commandes suivantes
+WORKDIR /app
+
+# Exposer le port sur lequel serve écoute
+EXPOSE 80
+
+# Démarrer serve pour servir l'application
+CMD ["serve", "-s", ".", "-l", "80"]
