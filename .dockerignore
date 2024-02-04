@@ -1,0 +1,20 @@
+# Logs
+logs/*.log
+*.log
+npm-debug.log*
+ 
+# Le dossier des dépendances
+node_modules/
+ 
+# Fichier contenant les variables d'environnements
+.env
+ 
+# La configuration d'IntelliJ
+.idea/
+ 
+# La configuration de VScode
+.vscode/*
+ 
+# Git ignore
+.gitignore
+.git
