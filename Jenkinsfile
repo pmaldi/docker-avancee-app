@@ -14,6 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+                sh 'docker build -t docker-avancee-app:${BUILD_NUMBER} .'
             }
         }
         stage('Test') {
@@ -24,6 +25,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                sh 'docker run -d -p 5173:5173 docker-avancee-app:${BUILD_NUMBER}'
             }
         }
     }
